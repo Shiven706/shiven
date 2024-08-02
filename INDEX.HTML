@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BARKATIES</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+            scroll-behavior: smooth;
+            overflow: hidden; /* Prevent scrolling while preloader is active */
+        }
+
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 100px;
+            height: 100px;
+            background-image: url('preloader.gif'); /* Path to your preloader GIF */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        body.loaded #preloader {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        body.loaded {
+            overflow: auto; /* Enable scrolling after preloader */
+        }
+
+        .bg {
+            background-image: url('image.png');
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            z-index: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .content {
+            position: relative;
+            z-index: 3;
+            padding: 20px;
+        }
+
+        .content h1 {
+            font-size: 3em;
+            margin: 0;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .content nav {
+            margin-top: 20px;
+        }
+
+        .content nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 25px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .content nav a:hover {
+            background: white;
+            color: black;
+        }
+
+        .section {
+            padding: 50px 20px;
+            background-size: cover;
+            background-position: center;
+            animation: fadeInUp 1s ease-out;
+            color: black;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Dark overlay for better text contrast */
+            z-index: 1;
+        }
+
+        .section .container {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            position: relative;
+            color: teal;
+        }
+
+        .container h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: teal;
+            display: block;
+            margin: 10px auto 0;
+        }
+
+        .about, .services, .contact {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+            color: teal;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card i {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            margin: 0;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .futuristic-bg {
+            background: radial-gradient(circle, rgba(58, 123, 213, 0.8), rgba(0, 0, 0, 0.8)), url('path-to-futuristic-background-image.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .spinner-circle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            border: 5px solid red;
+            border-left-color: blue;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+            z-index: 1000;
+        }
+
+        .donate-section {
+            padding: 50px 20px;
+            background: teal;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .donate-container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .donate-container img {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .donate-container p {
+            color: teal;
+            font-size: 1.2em;
+        }
+
+        .donate-container a {
+            background: teal;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .donate-container a:hover {
+            background: white;
+            color: teal;
+        }
+
+        .video-section {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 4;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-section video {
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .welcome-message {
+            position: fixed;
+            bottom: 50px;
+            left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            animation: slideInLeft 1s ease-out;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <div class="loader">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <div class="bg">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Welcome to BARKATIES</h1>
+            <nav>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+                <a href="#donate">Donate</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="spinner-circle"></div>
+
+    <div class="welcome-message">Welcome to BARKATIES, Shiven</div>
+
+    <div class="section futuristic-bg" id="about">
+        <div class="container">
+            <h2>About Us</h2>
+            <div class="about">
+                <div class="card">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Empowering youth in healthcare and education sectors.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-book"></i>
+                    <p>Ensuring education for all.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    <p>Accessible healthcare for everyone.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section futuristic-bg" id="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="services">
+                <div class="card">
+                    <i class="fa-solid fa-chalkboard-teacher"></i>
+                    <p>Educational workshops and seminars.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-hands-helping"></i>
+                    <p>Community health initiatives.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-heartbeat"></i>
+                    <p>Free medical camps.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section futuristic-bg" id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact">
+                <div class="card">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p>Email: ziyawaais@gmail.com</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-phone"></i>
+                    <p>Phone: +91-9330640325</p>
+                </div>
+                <div class="card">
+                    <i class="fa-brands fa-linkedin"></i>
+                    <p><a href="https://www.linkedin.com/in/waais-ziya-449757316" target="_blank" style="color: teal;">Shiven's LinkedIn</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="donate-section" id="donate">
+        <div class="donate-container">
+            <h2>Support Our Cause</h2>
+            <img src="image2.png" alt="QR Code">
+            <p>Scan the QR code to donate and help us make a difference.</p>
+            <a href="https://www.example.com/donate" target="_blank">Donate Now</a>
+        </div>
+    </div>
+
+    <div class="video-section" id="video">
+        <div class="video-container">
+            <video controls>
+                <source src="video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <audio id="bg-audio" autoplay>
+        <source src="audio.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            window.addEventListener('load', function() {
+                document.body.classList.add('loaded');
+            });
+
+            // Ensure audio plays on page load
+            const audio = document.getElementById('bg-audio');
+            audio.play().catch(function(error) {
+                console.log('Audio playback failed:', error);
+            });
+        });
+    </script>
+</body>
+</html>
